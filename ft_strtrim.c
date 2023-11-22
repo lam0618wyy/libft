@@ -6,7 +6,7 @@
 /*   By: kalam <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 16:44:30 by kalam             #+#    #+#             */
-/*   Updated: 2023/11/20 19:06:43 by kalam            ###   ########.fr       */
+/*   Updated: 2023/11/22 13:20:38 by kalam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,6 @@ char	*ft_strtrim(char const *s1, char const *set)
 	index = 0;
 	while (front < back)
 		new_str[index++] = s1[front++];
-	new_str[i] = 0;
+	new_str[index] = '\0';
 	return (new_str);
 }

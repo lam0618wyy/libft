@@ -5,65 +5,75 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kalam <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/20 15:46:01 by kalam             #+#    #+#             */
-/*   Updated: 2023/11/20 18:26:37 by kalam            ###   ########.fr       */
+/*   Created: 2023/11/21 18:55:21 by kalam             #+#    #+#             */
+/*   Updated: 2023/11/21 19:07:07 by kalam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	ft_allocation(char **tab, char const *s, char a)
+static size_t	nr_of_arrays(char const *s, char d)
 {
-	char	**tab_p;
-	char const	*temp;
+	int		i;
+	int		sum;
 
-	temp = s;
-	tab_p = tab;
-	while (*temp)
+	i = 0;
+	sum = 0;
+	while (s[i])
 	{
-		while (*s == a)
-			s++;
-		temp = s;
-		while (*temp && *temp != a)
-			temp++;
-		if (*temp == s || temp > a)
-		{
-			*tab_p = ft_substr(s, 0, temp -s);
-			s = temp;
-			tab_p++;
-		}
+		while (s[i] == d)
+			i++;
+		if (s[i] != d && s[i])
+			sum++;
+		while (s[i] != d && s[i])
+			i++;
 	}
-	*tab_p = NULL;
+	return (sum);
 }
 
-static int	ft_count(char const *s, char a)
+static char	*extract_str(char const *s, char c)
 {
-	int	word_count;
+	char	*out_str;
+	size_t	i;
+	size_t	len;
 
-	word_count = 0;
-	while (*s)
+	len = 0;
+	while (s[len] != c && s[len])
+		len++;
+	out_str = (char *)malloc((len + 1) * sizeof(char));
+	i = 0;
+	while (s[i] != c && i < len)
 	{
-		while (*s == a)
-			s++;
-		if (*s)
-			word_count++;
-		while (*s && *s != a)
-			s++;
+		out_str[i] = s[i];
+		i++;
 	}
-	return (word_count);
+	out_str[i] = '\0';
+	return (out_str);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char	**new;
-	int	size;
+	size_t		i;
+	size_t		j;
+	size_t		total;
+	char		**strs;
 
-	if (!s)
-		return (NULL);
-	size = ft_count(s, c);
-	new = (char **)malloc(sizeof(char *) * (size + 1));
-	if (!new)
-		return (NULL);
-	ft_allocation(new, s, c);
-	return (new);
+	i = 0;
+	j = 0;
+	total = nr_of_arrays(s, c);
+	strs = (char **)malloc(sizeof(char *) * (total + 1));
+	while (s[i])
+	{
+		while (s[i] == c)
+			i++;
+		if (s[i] != c && s[i])
+		{
+			strs[j] = extract_str(&s[i], c);
+			j++;
+		}
+		while (s[i] != c && s[i])
+			i++;
+	}
+	strs[j] = NULL;
+	return (strs);
 }
